@@ -9,9 +9,8 @@ CREATE TABLE IF NOT EXISTS ADMINS(
 	idAdmin int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	password varchar(30) DEFAULT NULL,
 	username varchar(30) DEFAULT NULL,
-	lastname varchar(30) DEFAULT NULL,
 	email varchar(30) DEFAULT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
-		
+
 CREATE TABLE IF NOT EXISTS ORIGIN(
 	idOrigin int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	originSource varchar(200) CHARACTER SET utf8,
@@ -27,5 +26,5 @@ CREATE TABLE IF NOT EXISTS CASES(
 	errorIndex varchar(200) CHARACTER SET utf8,
 	idProvenance int NOT NULL ,
 	lang varchar(10) CHARACTER SET utf8,
-	
+
 CONSTRAINT fk__provenance FOREIGN KEY (idProvenance) REFERENCES ORIGIN(idOrigin)) ENGINE=InnoDB DEFAULT CHARSET=utf8;

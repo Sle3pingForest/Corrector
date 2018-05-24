@@ -18,7 +18,7 @@ class Insertion
 		        $num = count($data);
 		        for ($c=0; $c < $num; $c++) {
 		        	$line  = $data[$c];
-					$col1 = explode("\t", $line);				
+					$col1 = explode("\t", $line);
 					$col = str_replace('\'', '_', $col1);
 					$arrayLine = array(
 					    "problem" => '\''.$col[0].'\'',
@@ -61,8 +61,8 @@ class Insertion
 		$res = str_replace(',(0,', '(0,', $data);
 		$valuesInfo = str_replace('_', '\\\'', $res);
 		$valuesInfo .= ';';
-		//$this->pdo->exec('INSERT INTO ORIGIN(idOrigin,originSource,note) VALUES(1,"test","testNOtes")');
-		$this->pdo->exec('INSERT INTO CASES( idCase, problem, solution, status, error, correction, errorIndex, idProvenance, lang) values '.$valuesInfo );		
+		$this->pdo->exec('INSERT INTO ORIGIN(idOrigin,originSource,note) VALUES(1,"test","testNOtes")');
+		$this->pdo->exec('INSERT INTO CASES( idCase, problem, solution, status, error, correction, errorIndex, idProvenance, lang) values '.$valuesInfo );
 	}
 
 	function insertProposition($string , $lang){
