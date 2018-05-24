@@ -137,7 +137,6 @@
 			document.getElementById("correction").innerHTML	='User Sentence';
 			document.getElementsByName('userSentence')[0].placeholder='Enter your correction here.';
 		}
-		alert(langselect);
 	}
 
 
