@@ -61,8 +61,9 @@ class Insertion
 		$res = str_replace(',(0,', '(0,', $data);
 		$valuesInfo = str_replace('_', '\\\'', $res);
 		$valuesInfo .= ';';
-		$this->pdo->exec('INSERT INTO ORIGIN(idOrigin,originSource,note) VALUES(1,"test","testNOtes")');
-		$this->pdo->exec('INSERT INTO CASES( idCase, problem, solution, status, error, correction, errorIndex, idProvenance, lang) values '.$valuesInfo );
+		//$this->pdo->exec('INSERT INTO ORIGIN(idOrigin,originSource,note) VALUES(1,"test","testNOtes")');
+		$this->pdo->exec('INSERT INTO CASES( idCase, problem, solution, status, error, correction, 
+						errorIndex, idProvenance, lang) values '.$valuesInfo );
 	}
 
 	function insertProposition($string , $lang){
@@ -77,7 +78,7 @@ class Insertion
     				confirm('Do you want to insert your request to us DB');
     				</script>");
 				$this->pdo->exec('INSERT INTO CASES(problem, solution, status, idProvenance, lang) values '.$string);
-		}
+		} 
 		echo ("<script LANGUAGE='JavaScript'>
     		window.location.href='../index.php';
     		</script>");
