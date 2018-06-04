@@ -10,7 +10,8 @@ class Insertion
 		$this->pdo = connect_bd();
 	}
 
-	function importCSV($filename){
+	//stocke les donnes du fichier de basedecas.csv  dans une array LAMDA	
+	function importCaseBase($filename){
 		$row = 1;
 		$array;
 		if (($handle = fopen($filename, "r")) !== FALSE) {
@@ -27,7 +28,7 @@ class Insertion
 					    "error" => '\''.$col[3].'\'',
 					    "correction" => '\''.$col[4].'\'',
 					    "errorIndex" => '\''.$col[5].'\'',
-					    "idProvenance" => 1,
+					    "idProvenance" => $col[6],
 					    "lang" => '\''.$col[7].'\'',
 					);
 		        	$array[] = $arrayLine;
@@ -39,8 +40,9 @@ class Insertion
 		return $array;
 	}
 
-	function insertData($filename){
-		$array = $this->importCSV($filename);
+	//insert les donnees d'array LANDA dans la base de donnees du Corrector
+	function insertCaseBase($filename){
+		$array = $this->importCaseBase($filename);
 		$num = 0;
 		$data ="";
 		$myliste;
@@ -61,10 +63,56 @@ class Insertion
 		$res = str_replace(',(0,', '(0,', $data);
 		$valuesInfo = str_replace('_', '\\\'', $res);
 		$valuesInfo .= ';';
-		//$this->pdo->exec('INSERT INTO ORIGIN(idOrigin,originSource,note) VALUES(1,"test","testNOtes")');
-		$this->pdo->exec('INSERT INTO CASES( idCase, problem, solution, status, error, correction, 
-						errorIndex, idProvenance, lang) values '.$valuesInfo );
+		$this->pdo->exec('INSERT INTO CASES( idCase, problem, solution, status, error, correction, errorIndex, idProvenance, lang) values '.$valuesInfo );
 	}
+
+	//stocke les donnes du fichier de origine.csv dans une array DELTA
+	function importOrigine($filename){
+		$row = 1;
+		$array;
+		if (($handle = fopen($filename, "r")) !== FALSE) {
+		    while (($data = fgetcsv($handle, 1000, "\n")) !== FALSE) {
+		        $num = count($data);
+		        for ($c=0; $c < $num; $c++) {
+		        	$line  = $data[$c];
+					$col1 = explode("\t", $line);
+					$col = str_replace('\'', '_', $col1);
+					$arrayLine = array(
+					    "idOrigin" => $col[0],
+					    "originSource" =>	'\''.$col[1].'\'',
+					    "note" => '\''.$col[2].'\'',
+					);
+		        	$array[] = $arrayLine;
+		        }
+		        $row++;
+		    }
+		    fclose($handle);
+		}
+		return $array;
+	}
+
+	//insert les donnees d'array LANDA dans la base de donnees du Corrector
+	function insertOrigine($filename){
+		$array = $this->importOrigine($filename);
+		$num = 0;
+		$data ="";
+		$myliste;
+		foreach ( $array as $value){
+			$myliste[] = $value;
+		}
+		while($num < sizeof($myliste)){
+			$data .= ',('.$myliste[$num]["idOrigin"].','.
+			$myliste[$num]["originSource"].','.
+			$myliste[$num]["note"].')';
+			$num++;
+		}
+		$res = str_replace(',(1,', '(1,', $data);
+		$values= str_replace('_', '\\\'', $res);
+		$values.= ';';
+		//echo ('INSERT INTO ORIGIN(idOrigin,originSource,note) VALUES '.$values);
+		$this->pdo->exec('INSERT INTO ORIGIN(idOrigin,originSource,note) VALUES '.$values );
+	}
+
 
 	function insertProposition($string , $lang){
 		if($lang == 'fr'){
@@ -86,18 +134,19 @@ class Insertion
 	}
 }
 $insertion = new Insertion();
+$insertion->insertCaseBase('../data/base_de_cas_minimal.csv');
 if(isset($_GET['userProbleme'])){
 	$solution= $_GET['userSentence'];
 	$problem=$_GET['userProbleme'];
 	$lang= $_GET['langSol2'];
-	$string = '(\''.$problem.'\',\''.$solution.'\',\''.'en attente'.'\','.'1'.',\''.$lang.'\');';
+	$string = '(\''.$problem.'\',\''.$solution.'\',\''.'en attente'.'\','.'2'.',\''.$lang.'\');';
 	$insertion->insertProposition($string, $lang);
 }
 if(isset($_GET['solution'])){
 	$solution= $_GET['solution'];
 	$problem=$_GET['initProblem'];
 	$lang= $_GET['langSol'];
-	$string = '(\''.$problem.'\',\''.$solution.'\',\''.'en attente'.'\','.'1'.',\''.$lang.'\');';
+	$string = '(\''.$problem.'\',\''.$solution.'\',\''.'en attente'.'\','.'2'.',\''.$lang.'\');';
 	$insertion->insertProposition($string, $lang);
 }
 ?>
