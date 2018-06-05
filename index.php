@@ -189,7 +189,7 @@
 			document.getElementById("langSol").value= langselect;
 
 			//ajax pour recuper la solution retourne par moteur.php
- 			$.get('models/moteur.php?probleme=request_4_'+document.getElementById("probleme").value, function(data) {
+ 			$.get('models/moteur.php?probleme='+document.getElementById("probleme").value, function(data) {
 				document.getElementById("solution").value= data;
 			});
 
