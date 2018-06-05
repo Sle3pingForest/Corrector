@@ -56,7 +56,7 @@
 				<span  class="form-control input-group-addon" id="erreurSentence" >Entrez la phrase à corriger</span>
 			</div>	
 			<div class="col-sm-6" style ="padding-left: 0px" >
-				<input  id="probleme" type="text" class="form-control" name="probleme" placeholder="Je nage pas.">
+				<input  id="probleme" type="text" class="form-control" name="probleme" placeholder="Je nage pas." onkeypress="refuserToucheEntree(event);">
 			</div>
 			<div class ="col-sm-4">	
 				<button type="button" style ="width: 100px" id="runButton" class="btn p-3 mb-2 bg-primary text-white" >Corriger</button>
@@ -73,7 +73,7 @@
 				<span  class="form-control input-group-addon" id ="correctSentence">Voici la correction</span>
 			</div>
 			<div class="col-sm-6" style ="padding-left: 0px">
-				<input  id="solution" type="text" class="form-control" name="solution" placeholder="Je ne nage pas.">
+				<input  id="solution" type="text" class="form-control" name="solution" placeholder="Je ne nage pas." onkeypress="refuserToucheEntree(event);">
 			</div>
 			<div class ="col-sm-4" id ="reponseButton">	
 			</div>
@@ -90,7 +90,7 @@
 				<span  class="form-control input-group-addon" id ="correction">Entrez votre correction</span>
 			</div>
 			<div class="col-sm-6 " style ="padding-left: 0px">
-				<input  id="usersolution" type="text" class="form-control" name="userSentence" placeholder="Entrer votre correction ici">
+				<input  id="usersolution" type="text" class="form-control" name="userSentence" placeholder="Entrer votre correction ici" onkeypress="refuserToucheEntree(event);">
 			</div>
 			<div class ="col-sm-4" id ="okUser">	
 				<button  type="submit" id="userValidated" style="width: 100px" class="btn p-3 mb-2 bg-primary text-white" >OK</button>
@@ -189,7 +189,7 @@
 			document.getElementById("langSol").value= langselect;
 
 			//ajax pour recuper la solution retourne par moteur.php
- 			$.get('models/moteur.php?probleme=test', function(data) {
+ 			$.get('models/moteur.php?probleme=request_4_'+document.getElementById("probleme").value, function(data) {
 				document.getElementById("solution").value= data;
 			});
 
@@ -208,4 +208,24 @@
 		document.getElementById("langSol2").value= langselect;
 	}
 
+	//function pour desactive le enter dans les champ input des formulaire.
+	function refuserToucheEntree(event)
+	{
+		// Compatibilité IE / Firefox
+		if(!event && window.event) {
+			event = window.event;
+		}
+		// IE
+		if(event.keyCode == 13) {
+			event.returnValue = false;
+			event.cancelBubble = true;
+		}
+		// DOM
+		if(event.which == 13) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
+	}
+
 </script>
+

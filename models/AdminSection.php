@@ -56,7 +56,7 @@ include ('../data/insertion.php');
 		// cette fonction permet de valider les case bon pour les admin , le changement de statut en attent en tru est en cours de developpement
 		function valideData(){
 			echo "<h2 style='text-align:center'>";
-			echo "Valider les cas d'utilisateur ";
+			echo "Valider les cas d'utilisateurs ";
 			echo "<button type='button' type='submit' class='btn btn-info text-white' onclick='afficherCase()'>Afficher</button>";
 			echo "</h2>";
 			$num = 0;
@@ -112,8 +112,8 @@ include ('../data/insertion.php');
 	}
 
 	echo "<h2 style='text-align:center'>";
-	echo "Insertion Base de cas minimal ";
-	echo "<button type='button' type='submit' class='btn btn-danger text-white' onclick='insertMin()'>Insert</button>";
+	echo "Insertion base de cas initiale ";
+	echo "<button type='button' type='submit' class='btn btn-danger text-white' onclick='insertMin()'>Insérer</button>";
 	echo "<script language=\"javascript\">";
 		echo "function insertMin(){";
 			$insert = new Insertion();
@@ -125,8 +125,8 @@ include ('../data/insertion.php');
 	echo "</h2>";
 
 	echo "<h2 style='text-align:center'>";
-	echo "Insertion Base de cas de wikopaco ";
-	echo "<button type='button' type='submit' class='btn btn-danger text-white' onclick='insertwiko()'>Insert</button>";
+	echo "Insertion base de cas de WiCoPaCo ";
+	echo "<button type='button' type='submit' class='btn btn-danger text-white' onclick='insertwiko()'>Insérer</button>";
 	echo "<script language=\"javascript\">";
 		echo "function insertMwiko(){";
 			$insert = new Insertion();
